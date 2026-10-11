@@ -6,8 +6,8 @@
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
 
   <f:entry title="Image" field="image"
-           description="Image reference to scan, e.g. myrepo/app:1.2.3. Supports environment variables like ${BUILD_NUMBER}.">
-    <f:textbox checkMethod="post"/>
+           description="Image reference to scan, e.g. myrepo/app:1.2.3. Supports environment variables like $${BUILD_NUMBER}.">
+    <f:textbox clazz="required" checkMessage="${%Please set an image name.}"/>
   </f:entry>
 
   <f:advanced>
@@ -18,7 +18,7 @@
 
     <f:entry title="Docker host" field="dockerHost"
              description="Docker daemon socket, e.g. unix:///var/run/docker.sock or tcp://host:2376. Leave blank for the default.">
-      <f:textbox checkMethod="post"/>
+      <f:textbox/>
     </f:entry>
 
     <f:entry title="Source" field="source"

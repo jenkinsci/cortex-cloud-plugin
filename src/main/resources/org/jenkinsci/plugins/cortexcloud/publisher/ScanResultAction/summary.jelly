@@ -5,7 +5,7 @@
 -->
 <j:jelly xmlns:j="jelly:core">
   <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
-    <b>Cortex Cloud Scan:</b>
+    <b>Cortex Cloud Scan:</b>&#160;
     <j:choose>
       <j:when test="${it.passed}">
         <span style="color: var(--success-color);">PASSED</span>

@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.cortexcloud.scanner;
 
+import hudson.AbortException;
 import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
@@ -178,12 +179,12 @@ public abstract class Scanner {
     // Helpers
     // ---------------------------------------------------------------------
 
-    private void requireConfig() throws IOException {
+    private void requireConfig() throws AbortException {
         if (config == null
                 || Util.fixEmptyAndTrim(config.getApiBaseUrl()) == null
                 || Util.fixEmptyAndTrim(config.getApiKeyPlainText()) == null
                 || Util.fixEmptyAndTrim(config.getApiKeyId()) == null) {
-            throw new IOException("Cortex Cloud global configuration is incomplete. "
+            throw new AbortException("Cortex Cloud global configuration is incomplete. "
                     + "Set the API base URL, API key, and API key ID under Manage Jenkins -> System.");
         }
     }

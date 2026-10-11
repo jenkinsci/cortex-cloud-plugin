@@ -9,14 +9,14 @@
     <l:main-panel>
       <h1>Cortex Cloud Scan</h1>
 
-      <table class="jenkins-table" style="margin-bottom: 1.5em;">
+      <table class="jenkins-table jenkins-table--auto-width jenkins-table--small" style="margin-bottom: 1.5em;">
         <tbody>
           <tr>
-            <td><b>Target</b></td>
+            <th scope="row" style="padding-left: 0.75rem; text-align: start;">Target</th>
             <td>${it.scanTarget}</td>
           </tr>
           <tr>
-            <td><b>Status</b></td>
+            <th scope="row" style="padding-left: 0.75rem; text-align: start;">Status</th>
             <td>
               <j:choose>
                 <j:when test="${it.passed}">
@@ -29,12 +29,12 @@
             </td>
           </tr>
           <tr>
-            <td><b>CLI exit code</b></td>
+            <th scope="row" style="padding-left: 0.75rem; text-align: start;">CLI exit code</th>
             <td>${it.exitCode}</td>
           </tr>
           <j:if test="${!empty(it.consoleUrl)}">
             <tr>
-              <td><b>Console</b></td>
+              <th scope="row" style="padding-left: 0.75rem; text-align: start;">Console</th>
               <td><a href="${it.consoleUrl}" target="_blank" rel="noopener noreferrer">View in Cortex</a></td>
             </tr>
           </j:if>
@@ -45,7 +45,7 @@
         <j:when test="${it.hasResult()}">
 
           <div style="margin-bottom: 1em;">
-            <b>Severity breakdown:</b>
+            <b>Severity breakdown:</b>&#160;
             <span style="color: var(--error-color);">Critical ${it.criticalCount}</span> &#160;
             <span style="color: var(--orange);">High ${it.highCount}</span> &#160;
             <span style="color: var(--warning-color);">Medium ${it.mediumCount}</span> &#160;

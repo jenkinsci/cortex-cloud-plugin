@@ -7,18 +7,18 @@
   <f:section title="Cortex Cloud">
 
     <f:entry title="API base URL" field="apiBaseUrl"
-             description="Tenant API base URL, e.g. https://api-&lt;tenant&gt;.xdr.&lt;region&gt;.paloaltonetworks.com">
-      <f:textbox checkMethod="post"/>
+             description="Tenant API base URL, e.g. https://api-&amp;lt;tenant&amp;gt;.xdr.&amp;lt;region&amp;gt;.paloaltonetworks.com">
+      <f:textbox/>
     </f:entry>
 
     <f:entry title="API key" field="apiKey"
              description="Cortex API key. Stored encrypted.">
-      <f:password checkMethod="post"/>
+      <f:password/>
     </f:entry>
 
     <f:entry title="API key ID" field="apiKeyId"
              description="Numeric API key ID (the x-xdr-auth-id value, e.g. 158).">
-      <f:textbox checkMethod="post"/>
+      <f:textbox/>
     </f:entry>
 
     <f:advanced>

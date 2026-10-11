@@ -20,6 +20,7 @@ import org.jenkinsci.plugins.cortexcloud.global.Config;
 import org.jenkinsci.plugins.cortexcloud.publisher.ScanResultAction;
 import org.jenkinsci.plugins.cortexcloud.scanner.ImageScanner;
 import org.jenkinsci.plugins.cortexcloud.scanner.ScanOutcome;
+import org.jenkinsci.plugins.cortexcloud.shared.CortexErrors;
 import org.jenkinsci.plugins.cortexcloud.shared.CortexScanResult;
 import org.jenkinsci.plugins.cortexcloud.shared.Severity;
 import org.kohsuke.stapler.AncestorInPath;
@@ -179,7 +180,21 @@ public class ImageBuildScanner extends AbstractBuildScanner {
                 resolvedSource,
                 resolvedUploadMode);
 
-        ScanOutcome outcome = scanner.run();
+        ScanOutcome outcome;
+        try {
+            outcome = scanner.run();
+        } catch (AbortException | InterruptedException e) {
+            throw e;
+        } catch (IOException e) {
+            if (config.isDebug()) {
+                e.printStackTrace(listener.getLogger());
+            }
+            String message = Util.fixEmptyAndTrim(e.getMessage());
+            if (message == null || "null".equalsIgnoreCase(message)) {
+                message = CortexErrors.describe(e);
+            }
+            throw new AbortException("Cortex: scan of image " + resolvedImage + " failed: " + message);
+        }
 
         // 1) Tenant/CLI exit-code verdict (legacy behaviour).
         boolean exitPassed = outcome.isPass();
@@ -311,15 +326,6 @@ public class ImageBuildScanner extends AbstractBuildScanner {
             } else {
                 item.checkPermission(Item.CONFIGURE);
             }
-        }
-
-        @POST
-        public FormValidation doCheckImage(@AncestorInPath Item item, @QueryParameter String value) {
-            checkConfigurePermission(item);
-            if (Util.fixEmptyAndTrim(value) == null) {
-                return FormValidation.error("Please set an image name");
-            }
-            return FormValidation.ok();
         }
 
         @POST

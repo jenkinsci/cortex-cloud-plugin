@@ -19,6 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.jenkinsci.plugins.cortexcloud.api.CortexCliApi;
 import org.jenkinsci.plugins.cortexcloud.shared.CortexConstants;
+import org.jenkinsci.plugins.cortexcloud.shared.CortexErrors;
 
 /**
  * Resolves an executable cortexcli binary onto the build node.
@@ -311,7 +312,12 @@ public class CliProvisioner {
                 .timeout(Duration.ofMillis(DOWNLOAD_READ_TIMEOUT_MS))
                 .build();
 
-        HttpResponse<InputStream> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofInputStream());
+        HttpResponse<InputStream> resp;
+        try {
+            resp = httpClient.send(req, HttpResponse.BodyHandlers.ofInputStream());
+        } catch (IOException e) {
+            throw new IOException("Could not download the Cortex CLI: " + CortexErrors.describe(e), e);
+        }
         int status = resp.statusCode();
         if (status < 200 || status >= 300) {
             throw new IOException("HTTP " + status + " downloading Cortex CLI");

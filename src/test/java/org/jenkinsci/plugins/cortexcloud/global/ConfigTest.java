@@ -118,6 +118,15 @@ class ConfigTest {
     }
 
     @Test
+    void testConnectionWithUnresolvableHostFailsCleanly(JenkinsRule j) {
+        Config config = Config.get();
+        FormValidation result = config.doTestConnection("https://nonexistent.invalid", "test-key", "123");
+        assertEquals(FormValidation.Kind.ERROR, result.kind);
+        assertTrue(result.getMessage().contains("Connection failed: Could not reach the Cortex API"));
+        assertFalse(result.getMessage().contains("null"));
+    }
+
+    @Test
     void checkApiKeyRequiresPost(JenkinsRule j) throws Exception {
         JenkinsRule.WebClient wc = j.createWebClient();
         String checkUrl = "descriptorByName/" + Config.class.getName() + "/checkApiKey?value=test";

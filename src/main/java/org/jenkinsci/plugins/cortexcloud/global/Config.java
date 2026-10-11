@@ -8,6 +8,7 @@ import hudson.util.Secret;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.cortexcloud.api.CortexCliApi;
+import org.jenkinsci.plugins.cortexcloud.shared.CortexErrors;
 import org.jenkinsci.plugins.cortexcloud.shared.CortexUrlValidator;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
@@ -209,7 +210,11 @@ public final class Config extends GlobalConfiguration {
             api.testConnection();
             return FormValidation.ok("Successfully connected to the Cortex tenant");
         } catch (Exception e) {
-            return FormValidation.error("Connection failed: " + e.getMessage());
+            String msg = Util.fixEmptyAndTrim(e.getMessage());
+            if (msg == null || "null".equalsIgnoreCase(msg)) {
+                msg = CortexErrors.describe(e);
+            }
+            return FormValidation.error("Connection failed: " + msg);
         }
     }
 }

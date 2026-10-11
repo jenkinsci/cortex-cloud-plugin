@@ -17,6 +17,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import org.jenkinsci.plugins.cortexcloud.shared.CortexConstants;
+import org.jenkinsci.plugins.cortexcloud.shared.CortexErrors;
 
 /**
  * Thin REST client for the Cortex tenant API.
@@ -132,6 +133,11 @@ public class CortexCliApi {
             Thread.currentThread().interrupt();
             throw new IOException(
                     "Interrupted while contacting Cortex API at " + CortexConstants.DOWNLOAD_LINK_PATH, e);
+        } catch (IOException e) {
+            throw new IOException(
+                    "Could not reach the Cortex API at " + baseUrl + ": " + CortexErrors.describe(e)
+                            + ". Check the API base URL and the Jenkins proxy settings.",
+                    e);
         }
 
         int status = resp.statusCode();
