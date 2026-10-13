@@ -14,7 +14,7 @@ import org.jenkinsci.plugins.cortexcloud.shared.Vulnerability;
  *
  * The CLI (verified against v0.31.0 on a live tenant) emits:
  *
- *     <SCAN_INTRO_START>{"imageName":...,"scanners":[...]}<SCAN_INTRO_END>
+ *     {@code <SCAN_INTRO_START>{"imageName":...,"scanners":[...]}<SCAN_INTRO_END>}
  *     {"asset_name":"alpine:3.2","image_id":"sha256:...","analysis":[
  *        {"type":"Malware","distribution":{...},"findings":[]},
  *        {"type":"Secrets","distribution":{...},"findings":[]},
@@ -81,7 +81,7 @@ public final class ScanOutputParser {
     }
 
     /**
-     * Removes the <SCAN_INTRO_START>...<SCAN_INTRO_END> block (and anything before
+     * Removes the {@code <SCAN_INTRO_START>...<SCAN_INTRO_END>} block (and anything before
      * it) so only the main result JSON remains.
      */
     static String stripIntro(String output) {

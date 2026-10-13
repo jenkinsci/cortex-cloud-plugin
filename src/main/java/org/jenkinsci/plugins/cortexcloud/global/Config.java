@@ -31,7 +31,7 @@ import org.kohsuke.stapler.verb.POST;
 @Extension
 public final class Config extends GlobalConfiguration {
 
-    /** Base URL of the tenant API, e.g. https://api-<tenant>.xdr.<region>.paloaltonetworks.com. */
+    /** Base URL of the tenant API, e.g. {@code https://api-<tenant>.xdr.<region>.paloaltonetworks.com}. */
     private String apiBaseUrl;
 
     /** API key (secret). Stored encrypted. */

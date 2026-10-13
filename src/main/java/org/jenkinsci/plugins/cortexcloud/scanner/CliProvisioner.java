@@ -42,7 +42,7 @@ import org.jenkinsci.plugins.cortexcloud.shared.CortexErrors;
  */
 public class CliProvisioner {
 
-    /** Cache directory under the agent's root, e.g. <agent-root>/caches/cortexcli. */
+    /** Cache directory under the agent's root, e.g. {@code <agent-root>/caches/cortexcli}. */
     static final String CACHE_DIR = "caches/cortexcli";
 
     /** Connection timeout for the binary download, in milliseconds. */

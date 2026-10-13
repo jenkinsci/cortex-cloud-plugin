@@ -131,9 +131,11 @@ class ConfigTest {
         JenkinsRule.WebClient wc = j.createWebClient();
         String checkUrl = "descriptorByName/" + Config.class.getName() + "/checkApiKey?value=test";
 
-        // GET must be rejected with 405 Method Not Allowed
+        // Stapler does not dispatch a GET to a @POST web method; depending on the core version
+        // the request is answered with 404 or 405. Either way it must not reach the method.
         FailingHttpStatusCodeException ex = assertThrows(FailingHttpStatusCodeException.class, () -> wc.goTo(checkUrl));
-        assertEquals(405, ex.getStatusCode());
+        int status = ex.getStatusCode();
+        assertTrue(status == 404 || status == 405, "GET must be rejected, got HTTP " + status);
 
         // POST (with crumb handled automatically by WebClient) must succeed
         WebRequest postRequest = new WebRequest(new URL(j.getURL() + checkUrl), HttpMethod.POST);
