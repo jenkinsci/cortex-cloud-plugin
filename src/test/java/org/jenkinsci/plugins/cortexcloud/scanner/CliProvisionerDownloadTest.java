@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import hudson.FilePath;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import org.jenkinsci.plugins.cortexcloud.api.CortexCliApi;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -22,6 +23,12 @@ import org.junit.jupiter.api.io.TempDir;
  * no executable produced.</p>
  */
 class CliProvisionerDownloadTest {
+
+    /** The cached binary name the provisioner uses on the platform running the test. */
+    private static final String BINARY_NAME =
+            System.getProperty("os.name", "").toLowerCase(Locale.ROOT).contains("windows")
+                    ? "cortexcli.exe"
+                    : "cortexcli";
 
     /** A {@link CortexCliApi} that returns a canned download link without any I/O. */
     private static final class StubApi extends CortexCliApi {
@@ -59,7 +66,7 @@ class CliProvisionerDownloadTest {
         IOException ex = assertThrows(IOException.class, () -> provisioner.resolve(root, workspace, null));
         assertTrue(ex.getMessage().toLowerCase().contains("https"), "should refuse a non-HTTPS download link");
 
-        FilePath cached = root.child(CliProvisioner.CACHE_DIR).child("cortexcli");
+        FilePath cached = root.child(CliProvisioner.CACHE_DIR).child(BINARY_NAME);
         assertNoExecutable(cached);
     }
 
@@ -72,7 +79,7 @@ class CliProvisionerDownloadTest {
         IOException ex = assertThrows(IOException.class, () -> provisioner.resolve(root, workspace, null));
         assertTrue(ex.getMessage().toLowerCase().contains("checksum"), "should refuse when no checksum is provided");
 
-        FilePath cached = root.child(CliProvisioner.CACHE_DIR).child("cortexcli");
+        FilePath cached = root.child(CliProvisioner.CACHE_DIR).child(BINARY_NAME);
         assertNoExecutable(cached);
     }
 
@@ -88,7 +95,7 @@ class CliProvisionerDownloadTest {
                 ex.getMessage().toLowerCase().contains("unrecognized"),
                 "should refuse a checksum whose length maps to no known algorithm");
 
-        FilePath cached = root.child(CliProvisioner.CACHE_DIR).child("cortexcli");
+        FilePath cached = root.child(CliProvisioner.CACHE_DIR).child(BINARY_NAME);
         assertNoExecutable(cached);
     }
 
