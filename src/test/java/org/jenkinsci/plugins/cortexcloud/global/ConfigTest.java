@@ -137,8 +137,9 @@ class ConfigTest {
         int status = ex.getStatusCode();
         assertTrue(status == 404 || status == 405, "GET must be rejected, got HTTP " + status);
 
-        // POST (with crumb handled automatically by WebClient) must succeed
+        // POST with a CSRF crumb must succeed
         WebRequest postRequest = new WebRequest(new URL(j.getURL() + checkUrl), HttpMethod.POST);
+        wc.addCrumb(postRequest);
         Page page = wc.getPage(postRequest);
         assertEquals(200, page.getWebResponse().getStatusCode());
     }
