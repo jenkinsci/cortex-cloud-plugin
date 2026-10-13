@@ -11,9 +11,11 @@ import org.jenkinsci.plugins.cortexcloud.shared.CortexConstants;
  * be unit-tested in isolation. The argument order and flags reflect the verified
  * Cortex CLI contract:
  *
+ * <pre>{@code
  *     cortexcli image scan --archive --archive-format docker-archive \
  *         --name <name> --output-format json [--docker-host <sock>] \
  *         [--ci-pipeline-id <id>] [--ci-build-id <id>] [--timeout <s>] <target>
+ * }</pre>
  *
  * - --archive is required when the target is a tar archive.
  * - The target (tarball path or image reference) is always the last argument.

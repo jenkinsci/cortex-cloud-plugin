@@ -29,8 +29,8 @@ import org.jenkinsci.plugins.cortexcloud.shared.CortexErrors;
  * used to provision the cortexcli binary onto an agent.
  *
  * Authentication uses the same credentials the CLI consumes, sent as HTTP headers:
- * - Authorization: <api key>
- * - x-xdr-auth-id: <api key id>
+ * - {@code Authorization: <api key>}
+ * - {@code x-xdr-auth-id: <api key id>}
  *
  * HTTP requests use {@link HttpClient} configured via
  * {@link ProxyConfiguration#newHttpClientBuilder()} to honour the Jenkins

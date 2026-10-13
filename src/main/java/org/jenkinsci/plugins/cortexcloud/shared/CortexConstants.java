@@ -15,7 +15,7 @@ public final class CortexConstants {
     // ---------------------------------------------------------------------
     // Authentication — passed to the CLI via environment variables, NOT flags.
     // ---------------------------------------------------------------------
-    /** Base URL of the tenant API, e.g. https://api-<tenant>.xdr.<region>.paloaltonetworks.com. */
+    /** Base URL of the tenant API, e.g. {@code https://api-<tenant>.xdr.<region>.paloaltonetworks.com}. */
     public static final String ENV_API_BASE_URL = "CORTEX_API_BASE_URL";
     /** API key (secret). */
     public static final String ENV_API_KEY = "CORTEX_API_KEY";

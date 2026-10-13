@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Locale;
 import org.jenkinsci.plugins.cortexcloud.api.CortexCliApi;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -26,6 +27,12 @@ import org.junit.jupiter.api.io.TempDir;
 class CliProvisionerCacheTest {
 
     private static final byte[] BINARY = "#!/bin/sh\necho cortexcli\n".getBytes(StandardCharsets.UTF_8);
+
+    /** The cached binary name the provisioner uses on the platform running the test. */
+    private static final String BINARY_NAME =
+            System.getProperty("os.name", "").toLowerCase(Locale.ROOT).contains("windows")
+                    ? "cortexcli.exe"
+                    : "cortexcli";
 
     private static String md5(byte[] data) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -66,7 +73,7 @@ class CliProvisionerCacheTest {
         // Pre-seed a valid cached binary with a matching checksum.
         FilePath cacheDir = root.child(CliProvisioner.CACHE_DIR);
         cacheDir.mkdirs();
-        FilePath cached = cacheDir.child("cortexcli");
+        FilePath cached = cacheDir.child(BINARY_NAME);
         try (OutputStream os = cached.write()) {
             os.write(BINARY);
         }
@@ -78,7 +85,7 @@ class CliProvisionerCacheTest {
         assertTrue(cached.exists());
         // No lock or .part debris should remain.
         assertEquals(0, cacheDir.list("*.part").length, "no .part files should remain");
-        assertFalse(cacheDir.child("cortexcli.lock").exists(), "lock must be released");
+        assertFalse(cacheDir.child(BINARY_NAME + ".lock").exists(), "lock must be released");
     }
 
     @Test
@@ -89,7 +96,7 @@ class CliProvisionerCacheTest {
 
         FilePath cacheDir = root.child(CliProvisioner.CACHE_DIR);
         cacheDir.mkdirs();
-        FilePath cached = cacheDir.child("cortexcli");
+        FilePath cached = cacheDir.child(BINARY_NAME);
         try (OutputStream os = cached.write()) {
             os.write("corrupt".getBytes(StandardCharsets.UTF_8));
         }
@@ -110,6 +117,6 @@ class CliProvisionerCacheTest {
         }
 
         assertFalse(debris.exists(), "stale .part debris should be cleaned up on provisioning entry");
-        assertFalse(cacheDir.child("cortexcli.lock").exists(), "lock must be released even on failure");
+        assertFalse(cacheDir.child(BINARY_NAME + ".lock").exists(), "lock must be released even on failure");
     }
 }
