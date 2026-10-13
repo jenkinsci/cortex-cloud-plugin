@@ -161,14 +161,20 @@ mvn hpi:run        # run a local Jenkins with the plugin loaded for manual testi
 For general guidance on developing Jenkins plugins, see the
 [Jenkins plugin development documentation](https://www.jenkins.io/doc/developer/plugin-development/).
 
+## Changelog
+
+Release notes are published on the
+[GitHub Releases page](https://github.com/jenkinsci/cortex-cloud-plugin/releases).
+
 ## Contributing
 
-Contributions are welcome! Please open an issue or pull request, and follow the standard
+Contributions are welcome! Please open an [issue](https://github.com/jenkinsci/cortex-cloud-plugin/issues)
+or [pull request](https://github.com/jenkinsci/cortex-cloud-plugin/pulls), and follow the standard
 [Jenkins plugin contribution guidelines](https://www.jenkins.io/doc/developer/).
 
 ## Support
 
-- **Bugs & feature requests:** open an issue in this repository.
+- **Bugs & feature requests:** [open an issue](https://github.com/jenkinsci/cortex-cloud-plugin/issues) on GitHub.
 - **Security issues:** report privately via the [Jenkins security process](https://www.jenkins.io/security/).
 - **Cortex Cloud product help:** contact [Palo Alto Networks support](https://www.paloaltonetworks.com/cortex).
 
